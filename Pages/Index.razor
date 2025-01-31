@@ -1,9 +1,130 @@
 ﻿@page "/"
 
-<PageTitle>Index</PageTitle>
+<PageTitle>Payment Voucher Management</PageTitle>
 
-<h1>Hello, world!</h1>
+<div class="container-fluid min-vh-100 d-flex flex-column justify-content-center py-5">
+    <div class="text-center mb-5">
+        <h1 class="display-5 fw-bold text-dark">Payment Voucher Management</h1>
+        <p class="lead text-muted">Streamline financial processes with precision</p>
+    </div>
 
-Welcome to your new app.
+    <div class="container mt-4">
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card h-100 hover-lift glassmorphism border-0 shadow-sm">
+                    <div class="card-body d-flex flex-column text-center p-4">
+                        <div class="mb-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-receipt text-dark opacity-75" viewBox="0 0 16 16">
+                                <path d="M1.92.506a.5.5 0 0 1 .434.14L3 1.293l.646-.647a.5.5 0 0 1 .708 0L5 1.293l.646-.647a.5.5 0 0 1 .708 0L7 1.293l.646-.647a.5.5 0 0 1 .708 0L9 1.293l.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647V15.5a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5V1.854a.5.5 0 0 1 .506-.348M3 5a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 0-1h-9A.5.5 0 0 0 3 5" />
+                            </svg>
+                        </div>
+                        <h5 class="card-title fw-bold mb-3 text-dark">Manage Vouchers</h5>
+                        <p class="card-text text-muted small">Precise voucher management</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100 hover-lift glassmorphism border-0 shadow-sm">
+                    <div class="card-body d-flex flex-column text-center p-4">
+                        <div class="mb-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-graph-up text-dark opacity-75" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M0 0h1v15h15v1H0zm14.817 3.113a.5.5 0 0 1 .07.704l-4.5 5.5a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61 4.15-5.073a.5.5 0 0 1 .704-.07" />
+                            </svg>
+                        </div>
+                        <h5 class="card-title fw-bold mb-3 text-dark">Track Transactions</h5>
+                        <p class="card-text text-muted small">Comprehensive financial logs</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100 hover-lift glassmorphism border-0 shadow-sm">
+                    <div class="card-body d-flex flex-column text-center p-4">
+                        <div class="mb-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-file-earmark-pdf text-dark opacity-75" viewBox="0 0 16 16">
+                                <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z" />
+                            </svg>
+                        </div>
+                        <h5 class="card-title fw-bold mb-3 text-dark">Generate Reports</h5>
+                        <p class="card-text text-muted small">Simplified financial exports</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+    <div class="text-center mt-4">
+        <a href="/Payment-Vouchers" class="btn btn-lg px-5 rounded-pill shadow-sm glassmorphism text-light">
+            Launch Application
+        </a>
+    </div>
+</div>
+
+<style>
+    :root {
+        --bg-gradient-start: #f0f0f0;
+        --bg-gradient-end: #ffffff;
+        --glass-bg: rgba(255, 255, 255, 0.8);
+        --glass-border: rgba(0, 0, 0, 0.1);
+        --glass-shadow: rgba(0, 0, 0, 0.1);
+        --text-color: #000000;
+        --primary-color: #0d6efd;
+    }
+
+    body {
+        background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
+        color: var(--text-color);
+    }
+
+    .glassmorphism {
+        background: var(--glass-bg);
+        border: 1px solid var(--glass-border);
+        backdrop-filter: blur(10px);
+        border-radius: 12px;
+        box-shadow: 0 4px 16px var(--glass-shadow);
+    }
+
+    .card {
+        transition: all 0.3s ease;
+        transform: scale(0.98);
+    }
+
+        .card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+        }
+
+    .btn {
+        background: var(--primary-color);
+        border: none;
+        color: white;
+        transition: all 0.3s ease;
+        transform: scale(0.95);
+    }
+
+        .btn:hover {
+            transform: scale(1);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15) !important;
+        }
+
+    @@keyframes subtle-float {
+        0%, 100% {
+            transform: translateY(0);
+        }
+
+        50% {
+            transform: translateY(-5px);
+        }
+    }
+
+    .card {
+        animation: subtle-float 3s ease-in-out infinite;
+    }
+
+        .card:nth-child(2) {
+            animation-delay: 0.5s;
+        }
+
+        .card:nth-child(3) {
+            animation-delay: 1s;
+        }
+</style>
