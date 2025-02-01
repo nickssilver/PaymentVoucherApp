@@ -1,0 +1,69 @@
+﻿@using PaymentVoucherApp.Data.Models
+@inject ILogger<PaymentVoucherDialog> Logger
+<div class="modal-overlay">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">
+                @(Voucher?.ID > 0 ? "Edit" : "Create") Payment Voucher
+            </h5>
+            <button class="btn-close" @onclick="CloseModal"></button>
+        </div>
+        <div class="modal-body">
+            <PaymentVoucherForm Voucher="Voucher" OnSave="SaveVoucher" OnClose="CloseModal" /> <!-- Changed from OnCancel to OnClose -->
+        </div>
+    </div>
+</div>
+
+<style>
+    .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+    }
+
+    .modal-content {
+    background: white;
+    border-radius: 8px;
+    padding: 1.5rem;
+    width: 600px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .btn-close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    }
+</style>
+
+@code {
+    [Parameter] public PaymentVoucher Voucher { get; set; }
+    [Parameter] public EventCallback<PaymentVoucher> OnSave { get; set; }
+    [Parameter] public EventCallback OnClose { get; set; } // Changed from OnCancel to OnClose
+
+    private async Task SaveVoucher()
+    {
+        Logger.LogInformation("Saving voucher");
+        if (OnSave.HasDelegate)
+        {
+            await OnSave.InvokeAsync(Voucher);
+        }
+    }
+
+    private async Task CloseModal()
+    {
+        Logger.LogInformation("Closing modal");
+        if (OnClose.HasDelegate) // Changed from OnCancel to OnClose
+        {
+            await OnClose.InvokeAsync();
+        }
+    }
+}

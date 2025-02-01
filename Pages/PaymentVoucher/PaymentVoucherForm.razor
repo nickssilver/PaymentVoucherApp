@@ -1,0 +1,91 @@
+﻿@using PaymentVoucherApp.Data.Models
+@inject ILogger<PaymentVoucherForm> Logger
+<EditForm Model="@Voucher" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="row g-3">
+        <div class="col-md-6">
+            <label for="apAccount" class="form-label">AP Account</label>
+            <InputText id="apAccount" @bind-Value="Voucher.ApAccount" class="form-control" />
+        </div>
+        <div class="col-md-6">
+            <label for="names" class="form-label">Names</label>
+            <InputText id="names" @bind-Value="Voucher.Names" class="form-control" />
+        </div>
+        <div class="col-md-6">
+            <label for="cashbook" class="form-label">Cashbook</label>
+            <InputText id="cashbook" @bind-Value="Voucher.Cashbook" class="form-control" />
+        </div>
+        <div class="col-md-6">
+            <label for="department" class="form-label">Department</label>
+            <InputText id="department" @bind-Value="Voucher.Department" class="form-control" />
+        </div>
+        <div class="col-12">
+            <label for="description" class="form-label">Description</label>
+            <InputTextArea id="description" @bind-Value="Voucher.Description" class="form-control" rows="3" />
+        </div>
+        <div class="col-md-6">
+            <label for="amount" class="form-label">Amount</label>
+            <InputNumber id="amount" @bind-Value="Voucher.Amount" class="form-control" />
+        </div>
+        <div class="col-md-6">
+            <label for="manualPv" class="form-label">Manual PV</label>
+            <InputText id="manualPv" @bind-Value="Voucher.ManualPv" class="form-control" />
+        </div>
+        <div class="col-md-6">
+            <label for="chequeNo" class="form-label">Cheque No.</label>
+            <InputText id="chequeNo" @bind-Value="Voucher.ChequeNo" class="form-control" />
+        </div>
+        <div class="col-md-6">
+            <div class="form-check mt-4">
+                <InputCheckbox id="pettyCash" @bind-Value="Voucher.PettyCash" class="form-check-input" />
+                <label class="form-check-label" for="pettyCash">Petty Cash</label>
+            </div>
+        </div>
+        <div class="col-12">
+            <label for="memos" class="form-label">Memos</label>
+            <InputTextArea id="memos" @bind-Value="Voucher.Memos" class="form-control" rows="2" />
+        </div>
+        <div class="col-md-6">
+            <label for="transactionDate" class="form-label">Transaction Date</label>
+            <InputDate id="transactionDate" @bind-Value="Voucher.TransactionDate" class="form-control" />
+        </div>
+        <div class="col-md-6">
+            <label for="createUser" class="form-label">Create User</label>
+            <InputText id="createUser" @bind-Value="Voucher.CreateUser" class="form-control" />
+        </div>
+        <div class="col-12">
+            <label for="actualPosting" class="form-label">Actual Posting</label>
+            <InputText id="actualPosting" @bind-Value="Voucher.ActualPosting" class="form-control" />
+        </div>
+    </div>
+
+    <div class="mt-4 d-flex justify-content-end">
+        <button type="submit" class="btn btn-primary me-2">Save</button>
+        <button type="button" class="btn btn-secondary" @onclick="OnCancel">Cancel</button>
+    </div>
+</EditForm>
+
+@code {
+    [Parameter] public PaymentVoucher Voucher { get; set; } = new PaymentVoucher();
+    [Parameter] public EventCallback<PaymentVoucher> OnSave { get; set; }
+    [Parameter] public EventCallback OnClose { get; set; } // Changed from OnCancel to OnClose
+
+    private async Task HandleValidSubmit()
+    {
+        if (OnSave.HasDelegate)
+        {
+            await OnSave.InvokeAsync(Voucher);
+        }
+    }
+
+    private async Task OnCancel()
+    {
+        Logger.LogInformation("Handling cancel action");
+        if (OnClose.HasDelegate) // Changed from OnCancel to OnClose
+        {
+            await OnClose.InvokeAsync();
+        }
+    }
+}

@@ -1,27 +1,34 @@
 ﻿<div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="">PaymentVoucherApp</a>
+        <a class="navbar-brand d-flex align-items-center" href="">
+            <i class="bi bi-cash-coin me-2"></i>Payment Vouchers App
+        </a>
         <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
             <span class="navbar-toggler-icon"></span>
         </button>
     </div>
 </div>
 
-<div class="@NavMenuCssClass nav-scrollable" @onclick="ToggleNavMenu">
+<div class="@NavMenuCssClass nav-scrollable">
     <nav class="flex-column">
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="oi oi-home" aria-hidden="true"></span> Home
+        <div class="nav-item px-3 py-2">
+            <NavLink class="nav-link" href="/" Match="NavLinkMatch.All">
+                <i class="bi bi-house-door fs-5 me-3"></i>Home
             </NavLink>
         </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
-                <span class="oi oi-plus" aria-hidden="true"></span> Counter
+        <div class="nav-item px-3 py-2">
+            <NavLink class="nav-link" href="/payment-vouchers">
+                <i class="bi bi-file-earmark-text fs-5 me-3"></i>Payment Vouchers
             </NavLink>
         </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="fetchdata">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Fetch data
+        <div class="nav-item px-3 py-2">
+            <NavLink class="nav-link" href="/reports">
+                <i class="bi bi-bar-chart-line fs-5 me-3"></i>Reports
+            </NavLink>
+        </div>
+        <div class="nav-item px-3 py-2">
+            <NavLink class="nav-link" href="/settings">
+                <i class="bi bi-gear fs-5 me-3"></i>Settings
             </NavLink>
         </div>
     </nav>
@@ -30,7 +37,7 @@
 @code {
     private bool collapseNavMenu = true;
 
-    private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+    private string NavMenuCssClass => collapseNavMenu ? "collapse navbar-collapse" : "navbar-collapse show";
 
     private void ToggleNavMenu()
     {

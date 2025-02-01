@@ -1,0 +1,158 @@
+﻿@page "/payment-vouchers"
+@using PaymentVoucherApp.Data.Models
+@using PaymentVoucherApp.Data.Services
+@inject PaymentVoucherService PaymentVoucherService
+@inject ILogger<PaymentVoucherList> Logger
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" />
+
+<div class="container-fluid py-4">
+    <!-- Page Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3 class="m-0 text-dark fw-bold">Payment Vouchers</h3>
+        <div>
+            <!-- Action Buttons -->
+            <button class="btn btn-primary btn-sm px-4 rounded-xl shadow-sm transition-all duration-200 hover:shadow-md" @onclick="OpenModal">
+                <i class="bi bi-plus-lg me-2"></i>New
+            </button>
+            <button class="btn btn-outline-primary btn-sm rounded-xl px-4 ms-2 shadow-sm transition-all duration-200 hover:shadow-md hover:bg-primary hover:text-white">
+                <i class="bi bi-pencil me-2"></i>Amend
+            </button>
+            <button class="btn btn-outline-danger btn-sm rounded-xl px-4 ms-2 shadow-sm transition-all duration-200 hover:shadow-md hover:bg-danger hover:text-white">
+                <i class="bi bi-x me-2"></i>Cancel
+            </button>
+            <button class="btn btn-outline-secondary btn-sm rounded-xl px-4 ms-2 shadow-sm transition-all duration-200 hover:shadow-md hover:bg-secondary hover:text-white">
+                <i class="bi bi-x-circle me-2"></i>Close
+            </button>
+            <button class="btn btn-outline-success btn-sm rounded-xl px-4 ms-2 shadow-sm transition-all duration-200 hover:shadow-md hover:bg-success hover:text-white">
+                <i class="bi bi-file-earmark-spreadsheet me-2"></i>Export
+            </button>
+        </div>
+    </div>
+
+    <!-- Filter and Search -->
+    <div class="card border-0 shadow-sm">
+        <div class="card-header bg-white border-bottom-0 d-flex align-items-center justify-content-between">
+            <div class="d-flex flex-wrap align-items-center gap-3 p-3 bg-light rounded-3 shadow-sm">
+                <!-- Search Bar -->
+                <div class="flex-grow-1">
+                    <div class="input-group input-group-sm">
+                        <span class="input-group-text bg-white border-end-0">
+                            <i class="bi bi-search text-muted"></i>
+                        </span>
+                        <input type="text" class="form-control form-control-sm border-start-0" placeholder="Search by Voucher No., Account, etc." />
+                    </div>
+                </div>
+
+                <!-- Filter Dropdowns -->
+                <div class="d-flex align-items-center gap-2">
+                    <span class="text-muted">Filter By:</span>
+                    <select class="form-select form-select-sm">
+                        <option value="">[NOT SPECIFIED]</option>
+                        <option value="VoucherType">Voucher Type</option>
+                        <option value="Account">Account</option>
+                        <option value="Department">Department</option>
+                        <option value="Status">Status</option>
+                    </select>
+                </div>
+
+                <!-- Date Range Filters -->
+                <div class="d-flex align-items-center gap-2">
+                    <input type="date" class="form-control form-control-sm" />
+                    <span class="text-muted">to</span>
+                    <input type="date" class="form-control form-control-sm" />
+                </div>
+
+                <!-- Apply Filters Button -->
+                <button class="btn btn-primary btn-sm rounded-sm px-3 d-flex align-items-center gap-2">
+                    <i class="bi bi-funnel"></i>
+                    Apply Filters
+                </button>
+            </div>
+        </div>
+
+        <!-- Vouchers Table -->
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>AP ACCOUNT</th>
+                            <th>NAMES</th>
+                            <th>CASHBOOK</th>
+                            <th>DEPARTMENT</th>
+                            <th>DESCRIPTION</th>
+                            <th>AMOUNT</th>
+                            <th>MANUAL PV</th>
+                            <th>CHQ NO.</th>
+                            <th>PETTY CASH</th>
+                            <th>MEMOS</th>
+                            <th>TRANSACTION DATE</th>
+                            <th>CREATE USER</th>
+                            <th>ACTUAL POSTING</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var voucher in PaymentVoucherService.GetVouchers())
+                        {
+                            <tr>
+                                <td>@voucher.ApAccount</td>
+                                <td>@voucher.Names</td>
+                                <td>@voucher.Cashbook</td>
+                                <td>@voucher.Department</td>
+                                <td>@voucher.Description</td>
+                                <td>Ksh @voucher.Amount.ToString("N2")</td>
+                                <td>@voucher.ManualPv</td>
+                                <td>@voucher.ChequeNo</td>
+                                <td>@voucher.PettyCash</td>
+                                <td>@voucher.Memos</td>
+                                <td>@voucher.TransactionDate.ToShortDateString()</td>
+                                <td>@voucher.CreateUser</td>
+                                <td>@voucher.ActualPosting</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+@if (showModal)
+{
+    <PaymentVoucherDialog Voucher="selectedVoucher" OnSave="SaveVoucher" OnClose="CloseModal" /> <!-- Changed from OnCancel to OnClose -->
+}
+
+@code {
+    private bool showModal = false;
+    private PaymentVoucher selectedVoucher = new();
+
+    private void OpenModal()
+    {
+        Logger.LogInformation("Opening modal");
+        selectedVoucher = new PaymentVoucher(); // Initialize with default values
+        showModal = true;
+    }
+
+    private void SaveVoucher(PaymentVoucher voucher)
+    {
+        try
+        {
+            Logger.LogInformation("Attempting to save voucher");
+            PaymentVoucherService.SaveVoucher(voucher); // Save logic
+            Logger.LogInformation("Voucher saved successfully");
+            showModal = false; // Close modal after save
+        }
+        catch (Exception ex)
+        {
+            // Handle exception (e.g., show error message)
+        }
+    }
+
+    private void CloseModal()
+    {
+        Logger.LogInformation("Closing modal from main page");
+        showModal = false; // Close modal without saving
+    }
+}
